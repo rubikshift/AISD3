@@ -97,13 +97,13 @@ int main()
 {
 	int w, r, tmp;
 
-	char tab[ARRAY_SIZE], *p;
+	char Data[ARRAY_SIZE], *Number;
 
-	fgets(tab, ARRAY_SIZE, stdin);
-	p = strtok(tab, " ");
-	w = atoi(p);
-	p = strtok(NULL, " ");
-	r = atoi(p);
+	fgets(Data, ARRAY_SIZE, stdin);
+	Number = strtok(Data, " ");
+	w = atoi(Number);
+	Number = strtok(NULL, " ");
+	r = atoi(Number);
 
 	auto Participants = new int*[w];
 	auto Q = new Queue(&w);
@@ -111,19 +111,19 @@ int main()
 	auto PairB = new int[r + 1];
 	auto Dist = new int[w];
 	auto Visited = new bool[w];
-	int j = 0, i = 0;;
-	while(fgets(tab, ARRAY_SIZE, stdin) != NULL)
+	int j = 0, i = 0;
+	while(fgets(Data, ARRAY_SIZE, stdin) != NULL)
 	{
-		p = strtok(tab, " ");
-		tmp = atoi(p);
+		Number = strtok(Data, " ");
+		tmp = atoi(Number);
 		Participants[i] = new int[tmp + 1];
 		Participants[i][CHOSEN_BIKES_COUNT] = tmp;
-		p = strtok(NULL, " ");
+		Number = strtok(NULL, " ");
 		j = 1;
-		while (p != NULL)
+		while (Number != NULL)
 		{
-			Participants[i][j++] = atoi(p);
-			p = strtok(NULL, " ");
+			Participants[i][j++] = atoi(Number);
+			Number = strtok(NULL, " ");
 		}
 		i++;
 	}
