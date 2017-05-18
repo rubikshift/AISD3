@@ -126,5 +126,6 @@ int main()
 	delete[] Visited;
 	for (int i = 0; i < w; i++)
 		delete[] Patricipants[i];
+	delete[] Patricipants;
 	return 0;
 }
