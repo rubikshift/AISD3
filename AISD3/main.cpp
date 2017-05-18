@@ -18,7 +18,7 @@ void BFS_STAGE(int** Participants, int* PairP, int* PairB, int* Dist, int w, int
 	while (!Q->IsEmpty())
 	{
 		p = Q->Dequeue();
-		for (int i = 1; i < Participants[p][CHOSEN_BIKES_COUNT] + 1; i++)
+		for (int i = 1; i <= Participants[p][CHOSEN_BIKES_COUNT]; i++)
 		{
 			if (PairB[Participants[p][i]] != NONE
 				&& Dist[PairB[Participants[p][i]]] == NONE)
@@ -33,7 +33,7 @@ void BFS_STAGE(int** Participants, int* PairP, int* PairB, int* Dist, int w, int
 bool DFS(int p, int** Participants, int* PairP, int* PairB, int* Dist, bool* Visited)
 {
 	Visited[p] = true;
-	for (int i = 1; i < Participants[p][CHOSEN_BIKES_COUNT] + 1; i++)
+	for (int i = 1; i <= Participants[p][CHOSEN_BIKES_COUNT]; i++)
 	{
 		if (PairB[Participants[p][i]] == NONE)
 		{
@@ -103,9 +103,8 @@ int main()
 	auto Dist = new int[w];
 	auto Visited = new bool[w];
 	auto Patricipants = new int*[w];
-	while (!std::cin.eof())
+	while (std::cin >> tmp)
 	{
-		std::cin >> tmp;
 		Patricipants[i] = new int[tmp + 1];
 		Patricipants[i][CHOSEN_BIKES_COUNT] = tmp;
 		for (int q = 1; q < tmp + 1; q++)
