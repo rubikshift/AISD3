@@ -1,7 +1,11 @@
 #include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
 #include "Queue.h"
 #define CHOSEN_BIKES_COUNT 0
 #define NONE -1
+#define ARRAY_SIZE 20000
 
 void BFS_STAGE(int** Participants, int* PairP, int* PairB, int* Dist, int w, int r, Queue* Q)
 {
@@ -73,12 +77,12 @@ bool DFS_STAGE(int** Participants, int* PairP, int* PairB, int* Dist, bool* Visi
 }
 void HopcroftKarp(int** Participants, int* PairP, int* PairB, int* Dist, bool* Visited, int w, int r, Queue* Q)
 {
-	int x = (w > r) ? w : r;
+	int x = (w > r+1) ? w : r+1;
 	for (int i = 0; i < x; i++)
 	{
 		if (i < w)
 			PairP[i] = NONE;
-		if (i < r)
+		if (i <= r)
 			PairB[i] = NONE;
 	}
 	bool ok = true;
@@ -86,46 +90,59 @@ void HopcroftKarp(int** Participants, int* PairP, int* PairB, int* Dist, bool* V
 	{
 		BFS_STAGE(Participants, PairP, PairB, Dist, w, r, Q);
 		ok = DFS_STAGE(Participants, PairP, PairB, Dist, Visited, w);
-
 	}
 }
 
 int main()
 {
-	int w, r, tmp, i = 0;
-	
-	std::ios_base::sync_with_stdio(0);
-	std::cin >> w >> r;
+	int w, r, tmp;
+
+	char tab[ARRAY_SIZE], *p;
+
+	fgets(tab, ARRAY_SIZE, stdin);
+	p = strtok(tab, " ");
+	w = atoi(p);
+	p = strtok(NULL, " ");
+	r = atoi(p);
+
+	auto Participants = new int*[w];
 	auto Q = new Queue(&w);
-	int match = w;
 	auto PairP = new int[w];
-	auto PairB = new int[r];
+	auto PairB = new int[r + 1];
 	auto Dist = new int[w];
 	auto Visited = new bool[w];
-	auto Patricipants = new int*[w];
-	while (std::cin >> tmp)
+	int j = 0, i = 0;;
+	while(fgets(tab, ARRAY_SIZE, stdin) != NULL)
 	{
-		Patricipants[i] = new int[tmp + 1];
-		Patricipants[i][CHOSEN_BIKES_COUNT] = tmp;
-		for (int q = 1; q < tmp + 1; q++)
+		p = strtok(tab, " ");
+		tmp = atoi(p);
+		Participants[i] = new int[tmp + 1];
+		Participants[i][CHOSEN_BIKES_COUNT] = tmp;
+		p = strtok(NULL, " ");
+		j = 1;
+		while (p != NULL)
 		{
-			std::cin >> Patricipants[i][q];
-			Patricipants[i][q]--;
+			Participants[i][j++] = atoi(p);
+			p = strtok(NULL, " ");
 		}
 		i++;
 	}
-	HopcroftKarp(Patricipants, PairP, PairB, Dist, Visited, w, r, Q);
+
+	int match = w;
+	HopcroftKarp(Participants, PairP, PairB, Dist, Visited, w, r, Q);
 	for (int i = 0; i < w; i++)
 		if (PairP[i] == NONE)
 			match--;
+
 	std::cout << match;
+
 	delete Q;
 	delete[] PairP;
 	delete[] PairB;
 	delete[] Dist;
 	delete[] Visited;
 	for (int i = 0; i < w; i++)
-		delete[] Patricipants[i];
-	delete[] Patricipants;
+		delete[] Participants[i];
+	delete[] Participants;
 	return 0;
 }
